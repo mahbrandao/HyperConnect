@@ -1,0 +1,110 @@
+import { FileText, FolderOpen, Users, Clock, Download } from "lucide-react";
+import Link from "next/link";
+import { projects, stageColor, fmt } from "@/data/mockData";
+
+const docs = [
+  { name: "Contrato_Instalacao.pdf",     project: "Instalação Fotovoltaica Industrial", status: "ok" },
+  { name: "ART_Projeto.pdf",             project: "Instalação Fotovoltaica Industrial", status: "ok" },
+  { name: "Proposta_Carregador.pdf",     project: "Carregador de Carro Elétrico",       status: "pendente" },
+  { name: "Contrato_Automacao.pdf",      project: "Automação de Painel de Comando",      status: "pendente" },
+  { name: "Nota_Fiscal_Limpeza.pdf",     project: "Limpeza de Painéis",                 status: "ok" },
+];
+
+const pendingDocs = docs.filter(d => d.status === "pendente").length;
+const okDocs = docs.filter(d => d.status === "ok").length;
+
+export default function DashboardAdmin() {
+  return (
+    <div className="p-6 space-y-6">
+      <div>
+        <h1 className="text-xl font-bold text-white">Olá, Samanta!</h1>
+        <p className="text-[#888] text-sm">Visão administrativa — processos, clientes e documentos.</p>
+      </div>
+
+      {/* KPIs */}
+      <div className="grid grid-cols-4 gap-4">
+        {[
+          { label: "Projetos ativos",      value: String(projects.filter(p => p.stage !== "Concluído").length), icon: FolderOpen,  color: "text-[#f5c518]" },
+          { label: "Documentos em ordem",  value: String(okDocs),                                               icon: FileText,    color: "text-green-400" },
+          { label: "Docs. pendentes",       value: String(pendingDocs),                                          icon: Clock,       color: "text-red-400"   },
+          { label: "Clientes ativos",       value: String(new Set(projects.map(p => p.client)).size),            icon: Users,       color: "text-blue-400"  },
+        ].map(({ label, value, icon: Icon, color }) => (
+          <div key={label} className="bg-[#151515] border border-[#222] rounded-xl p-4">
+            <Icon size={18} className={`${color} mb-3`} />
+            <div className="text-xl font-bold text-white mb-0.5">{value}</div>
+            <div className="text-xs text-[#888]">{label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Clients × Projects table */}
+      <div className="bg-[#151515] border border-[#222] rounded-xl overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#222]">
+          <h2 className="font-semibold text-white text-sm">Clientes e seus projetos</h2>
+          <Link href="/app/projects" className="text-xs text-[#f5c518] hover:underline">Ver todos os projetos</Link>
+        </div>
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-[#1e1e1e]">
+              {["Cliente", "Projeto", "Responsável Vendas", "Instalador", "Etapa", "Valor"].map(col => (
+                <th key={col} className="text-left py-3 px-4 text-xs font-medium text-[#555] uppercase tracking-wider">{col}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[#1e1e1e]">
+            {projects.map(p => (
+              <tr key={p.id} className="hover:bg-[#1a1a1a] transition-colors">
+                <td className="py-3 px-4">
+                  <div className="w-7 h-7 rounded-full bg-[#222] flex items-center justify-center text-xs font-bold text-[#888] mb-0.5">
+                    {p.client[0]}
+                  </div>
+                  <div className="text-xs text-[#888] leading-none">{p.client}</div>
+                </td>
+                <td className="py-3 px-4">
+                  <div className="text-sm font-medium text-white">{p.title}</div>
+                  <div className="text-xs text-[#555]">{p.type}</div>
+                </td>
+                <td className="py-3 px-4 text-xs text-[#888]">{p.vendedor || "—"}</td>
+                <td className="py-3 px-4 text-xs text-[#888]">{p.instalador || "—"}</td>
+                <td className="py-3 px-4">
+                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${stageColor[p.stage]}`}>{p.stage}</span>
+                </td>
+                <td className="py-3 px-4 text-xs text-white font-medium">{fmt(p.value)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Documents status */}
+      <div className="bg-[#151515] border border-[#222] rounded-xl overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#222]">
+          <h2 className="font-semibold text-white text-sm">Status de documentos</h2>
+          <Link href="/app/documents" className="text-xs text-[#f5c518] hover:underline">Gerenciar</Link>
+        </div>
+        <div className="divide-y divide-[#1e1e1e]">
+          {docs.map(d => (
+            <div key={d.name} className="flex items-center gap-4 px-5 py-3.5 hover:bg-[#1a1a1a] transition-colors group">
+              <div className={`w-2 h-2 rounded-full flex-shrink-0 ${d.status === "ok" ? "bg-green-400" : "bg-red-400"}`} />
+              <div className="w-8 h-8 bg-red-500/15 rounded-lg flex items-center justify-center flex-shrink-0">
+                <FileText size={14} className="text-red-400" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-sm text-white font-medium truncate">{d.name}</div>
+                <div className="text-xs text-[#555] truncate">{d.project}</div>
+              </div>
+              <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${
+                d.status === "ok" ? "bg-green-500/15 text-green-400" : "bg-red-500/15 text-red-400"
+              }`}>
+                {d.status === "ok" ? "Em ordem" : "Pendente"}
+              </span>
+              <button className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg hover:bg-[#222] text-[#888] hover:text-white transition-all">
+                <Download size={13} />
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
