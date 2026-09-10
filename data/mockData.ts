@@ -39,6 +39,10 @@ export const projects: Project[] = [
     img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=120&h=80&fit=crop&auto=format",
     priority: "Alta",
     value: 42000,
+    valorSistema: 42000,
+    valorMO: 12600,
+    valorAReceber: 29400,
+    dataPgto: null,
     notes: "Cliente aguardando proposta detalhada.",
   },
   {
@@ -55,6 +59,10 @@ export const projects: Project[] = [
     img: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=120&h=80&fit=crop&auto=format",
     priority: "Média",
     value: 18500,
+    valorSistema: 18500,
+    valorMO: 5550,
+    valorAReceber: 12950,
+    dataPgto: null,
     notes: "Aguardando entrega dos equipamentos.",
   },
   {
@@ -71,6 +79,10 @@ export const projects: Project[] = [
     img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=120&h=80&fit=crop&auto=format",
     priority: "Alta",
     value: 95000,
+    valorSistema: 95000,
+    valorMO: 28500,
+    valorAReceber: 66500,
+    dataPgto: null,
     notes: "Painéis instalados, falta fiação e homologação.",
   },
   {
@@ -87,6 +99,10 @@ export const projects: Project[] = [
     img: "https://images.unsplash.com/photo-1473341304170-971dce60d489?w=120&h=80&fit=crop&auto=format",
     priority: "Média",
     value: 4500,
+    valorSistema: 4500,
+    valorMO: 1350,
+    valorAReceber: 3150,
+    dataPgto: null,
     notes: "Verificação semestral dos painéis.",
   },
   {
@@ -103,6 +119,10 @@ export const projects: Project[] = [
     img: "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=120&h=80&fit=crop&auto=format",
     priority: "Alta",
     value: 67000,
+    valorSistema: 67000,
+    valorMO: 20100,
+    valorAReceber: 46900,
+    dataPgto: null,
     notes: "Projeto técnico em elaboração.",
   },
   {
@@ -119,6 +139,10 @@ export const projects: Project[] = [
     img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=120&h=80&fit=crop&auto=format",
     priority: "Baixa",
     value: 800,
+    valorSistema: 800,
+    valorMO: 240,
+    valorAReceber: 560,
+    dataPgto: null,
   },
   {
     id: 7,
@@ -134,6 +158,10 @@ export const projects: Project[] = [
     img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=120&h=80&fit=crop&auto=format",
     priority: "Média",
     value: 5500,
+    valorSistema: 5500,
+    valorMO: 1650,
+    valorAReceber: 3850,
+    dataPgto: null,
   },
 ];
 

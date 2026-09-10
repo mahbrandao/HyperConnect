@@ -15,5 +15,9 @@ export interface Project {
   img: string;
   priority: Priority;
   value: number;
+  valorSistema?: number;
+  valorMO?: number;
+  valorAReceber?: number;
+  dataPgto?: string | null;
   notes?: string;
 }

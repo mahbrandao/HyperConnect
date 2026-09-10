@@ -6,7 +6,7 @@ import type { ElementType, ReactNode } from "react";
 import Logo from "@/components/ui/Logo";
 import { useUser } from "@/hooks/useUser";
 import type { Team } from "@/interfaces/user";
-import { LayoutDashboard, FolderKanban, CalendarDays, FileText, Bell, ChevronDown, Users, LogOut } from "lucide-react";
+import { LayoutDashboard, FolderKanban, CalendarDays, FileText, Bell, ChevronDown, Users, LogOut, CreditCard } from "lucide-react";
 
 type NavItem = { href: string; label: string; icon: ElementType; exact?: boolean };
 
@@ -22,12 +22,14 @@ const navByTeam: Record<Team, NavItem[]> = {
     { href: "/app", label: "Visão Geral", icon: LayoutDashboard, exact: true },
     { href: "/app/documents", label: "Documentos", icon: FileText },
     { href: "/app/projects", label: "Projetos", icon: FolderKanban },
+    { href: "/app/payments", label: "Pagamentos", icon: CreditCard },
     { href: "/app/agenda", label: "Agenda", icon: CalendarDays },
   ],
   vendas: [
     { href: "/app", label: "Visão Geral", icon: LayoutDashboard, exact: true },
     { href: "/app/projects", label: "Projetos", icon: FolderKanban },
     { href: "/app/agenda", label: "Agenda", icon: CalendarDays },
+    { href: "/app/payments", label: "Pagamentos", icon: CreditCard },
   ],
   instalacao: [
     { href: "/app", label: "Visão Geral", icon: LayoutDashboard, exact: true },
