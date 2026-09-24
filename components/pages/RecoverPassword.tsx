@@ -42,7 +42,7 @@ export default function RecoverPassword() {
         </div>
 
         <div className="relative z-10 text-[#555] text-xs">
-          © 2024 HyperZ. Todos os direitos reservados.
+          © 2026 Hyper Connect. Todos os direitos reservados.
         </div>
       </div>
 
@@ -60,7 +60,7 @@ export default function RecoverPassword() {
               <div className="relative">
                 <input
                   type="email"
-                  placeholder="exemplo@empresa.com"
+                  placeholder="seu@gmail.com"
                   className="w-full border border-[#ddd] rounded-lg px-4 py-2.5 pr-10 text-sm outline-none focus:border-[#f5c518] transition-colors text-black placeholder:text-[#bbb]"
                 />
                 <Mail size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#bbb]" />
@@ -89,18 +89,7 @@ export default function RecoverPassword() {
             Voltar para o login
           </Link>
 
-          <div className="mt-6 p-4 bg-[#f9f9f9] rounded-xl border border-[#eee]">
-            <div className="flex items-center gap-2 mb-1.5">
-              <HelpCircle size={15} className="text-[#888]" />
-              <span className="text-sm font-semibold text-black">Precisa de ajuda?</span>
-            </div>
-            <p className="text-xs text-[#666] mb-3 leading-relaxed">
-              Se você não lembrar qual e-mail cadastrou, entre em contato com nosso suporte.
-            </p>
-            <a href="#" className="text-sm font-medium text-[#f5c518] hover:underline flex items-center gap-1">
-              Falar com o suporte <ArrowRight size={13} />
-            </a>
-          </div>
+        
         </div>
       </div>
     </div>

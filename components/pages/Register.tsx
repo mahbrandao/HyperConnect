@@ -43,7 +43,7 @@ export default function Register() {
         </div>
 
         <div className="relative z-10 text-[#555] text-xs">
-          © 2024 HyperZ. Todos os direitos reservados.
+          © 2026 Hyper Connect. Todos os direitos reservados.
         </div>
       </div>
 
@@ -51,7 +51,7 @@ export default function Register() {
       <div className="flex-1 bg-white flex items-center justify-center p-12 overflow-y-auto">
         <div className="w-full max-w-sm">
           <h1 className="text-2xl font-bold text-black mb-1">Criar conta</h1>
-          <p className="text-[#666] text-sm mb-6">Preencha os dados abaixo para criar sua conta na HyperZ.</p>
+          <p className="text-[#666] text-sm mb-6">Preencha os dados abaixo para criar sua conta na Hyper Connect.</p>
 
           <form onSubmit={(e) => { e.preventDefault(); router.push("/"); }} className="space-y-4">
             <div>
@@ -64,10 +64,10 @@ export default function Register() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black mb-1.5">E-mail corporativo</label>
+              <label className="block text-sm font-medium text-black mb-1.5">E-mail</label>
               <input
                 type="email"
-                placeholder="exemplo@empresa.com"
+                placeholder="seu@gmail.com"
                 className="w-full border border-[#ddd] rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#f5c518] transition-colors text-black placeholder:text-[#bbb]"
               />
             </div>

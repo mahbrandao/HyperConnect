@@ -12,13 +12,29 @@ export const USERS: Record<Team, User> = {
 
 export interface UserContextValue {
   user: User;
-  setTeam: (team: Team) => void;
+  setTeam: (team: Team | null) => void;
+  signOut: () => void;
 }
 
 export const UserContext = createContext<UserContextValue | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [team, setTeam] = useState<Team>("gerente");
-  const value = useMemo(() => ({ user: USERS[team], setTeam }), [team]);
+  const [team, setTeam] = useState<Team | null>("gerente");
+
+  const value = useMemo(() => {
+    const user: User = team ? USERS[team] : {
+      name: "Conta pendente",
+      team: null,
+      teamLabel: null,
+      avatar: "?",
+    };
+
+    return {
+      user,
+      setTeam,
+      signOut: () => setTeam(null),
+    };
+  }, [team]);
+
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

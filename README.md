@@ -1,4 +1,4 @@
-# HyperZ — Next.js
+# Hyper Connect — Next.js
 
 Conversão do protótipo exportado do Figma Make para **Next.js + TypeScript + Tailwind CSS**.
 

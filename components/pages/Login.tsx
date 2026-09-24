@@ -8,22 +8,26 @@ import Logo from "@/components/ui/Logo";
 import { useUser } from "@/hooks/useUser";
 import type { Team } from "@/interfaces/user";
 
-const teamOptions: { value: Team; label: string }[] = [
-  { value: "gerente",    label: "Gerência" },
-  { value: "admin",      label: "Administração" },
-  { value: "vendas",     label: "Vendas" },
-  { value: "instalacao", label: "Instalação" },
-];
+function resolveTeamByEmail(email: string): Team {
+  const normalized = email.toLowerCase().trim();
+
+  if (normalized.includes("gerente") || normalized.includes("diretoria") || normalized.includes("gestao")) return "gerente";
+  if (normalized.includes("admin") || normalized.includes("administr") || normalized.includes("financeiro")) return "admin";
+  if (normalized.includes("vendas") || normalized.includes("comercial") || normalized.includes("sales")) return "vendas";
+  if (normalized.includes("instal") || normalized.includes("campo") || normalized.includes("tecnico")) return "instalacao";
+
+  return "gerente";
+}
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [team, setTeam] = useState<Team>("gerente");
+  const [email, setEmail] = useState("");
   const router = useRouter();
   const { setTeam: applyTeam } = useUser();
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    applyTeam(team);
+    applyTeam(resolveTeamByEmail(email));
     router.push("/app");
   }
 
@@ -68,12 +72,15 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-black mb-1.5">E-mail</label>
+              <label className="block text-sm font-medium text-black mb-1.5">E-mail corporativo</label>
               <input
                 type="email"
-                placeholder="seu@hyperz.com.br"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="seu@gmail.com"
                 className="w-full border border-[#ddd] rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#f5c518] transition-colors text-black placeholder:text-[#bbb]"
               />
+              <p className="text-xs text-[#aaa] mt-1.5">O sistema identifica o departamento automaticamente pelo e-mail.</p>
             </div>
 
             <div>
@@ -99,20 +106,6 @@ export default function Login() {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-black mb-1.5">Perfil de acesso</label>
-              <select
-                value={team}
-                onChange={e => setTeam(e.target.value as Team)}
-                className="w-full border border-[#ddd] rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#f5c518] transition-colors text-black bg-white"
-              >
-                {teamOptions.map(o => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
-                ))}
-              </select>
-              <p className="text-xs text-[#aaa] mt-1.5">Selecione sua equipe para acessar o painel correto.</p>
-            </div>
-
             <button
               type="submit"
               className="w-full bg-[#f5c518] text-black font-bold py-3 rounded-lg hover:bg-[#e6b800] transition-colors text-sm mt-2"
@@ -124,7 +117,7 @@ export default function Login() {
           <p className="text-center text-sm text-[#888] mt-6">
             Ainda não tem uma conta?{" "}
             <Link href="/register" className="text-[#f5c518] font-semibold hover:underline">
-              Fale com a HyperZ
+              Criar cadastro
             </Link>
           </p>
         </div>

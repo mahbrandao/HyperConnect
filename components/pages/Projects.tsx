@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Search, Plus, ChevronRight, X, Calendar, Star } from "lucide-react";
 import { useUser } from "@/hooks/useUser";
@@ -64,9 +65,9 @@ function ProjectCard({ p }: { p: Project; mine?: boolean }) {
             <div className="bg-[#f5c518] h-1.5 rounded-full transition-all" style={{ width: `${prog}%` }} />
           </div>
           <span className="text-xs font-medium text-[#f5c518] w-8">{prog}%</span>
-          <button className="text-xs text-[#f5c518] hover:underline flex items-center gap-1 ml-2">
+          <Link href={`/app/projects/${p.id}`} className="text-xs text-[#f5c518] hover:underline flex items-center gap-1 ml-2">
             Ver detalhes <ChevronRight size={12} />
-          </button>
+          </Link>
         </div>
       </div>
     </div>
@@ -157,7 +158,7 @@ export default function Projects() {
           <h1 className="text-xl font-bold text-white">
             {showMine ? "Todos os projetos" : "Meus projetos"}
           </h1>
-          <p className="text-[#888] text-sm">Acompanhe todos os projetos com a HyperZ.</p>
+          <p className="text-[#888] text-sm">Acompanhe todos os projetos com a Hyper Connect.</p>
         </div>
         <button
           onClick={() => { setOpen(true); setErrors({}); }}

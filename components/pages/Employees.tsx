@@ -16,10 +16,15 @@ type Employee = {
   status: Status;
 };
 
+type AccessInvite = {
+  email: string;
+  team: "gerente" | "admin" | "vendas" | "instalacao";
+};
+
 const initialEmployees: Employee[] = [
-  { id: 1, name: "Carlos Mendes", email: "carlos.mendes@hyperz.com.br", phone: "(11) 99123-4567", role: "Técnico de Campo", department: "Instalações", since: "03/01/2023", status: "Ativo" },
-  { id: 2, name: "Fernanda Lima", email: "fernanda.lima@hyperz.com.br", phone: "(11) 98765-0011", role: "Engenheira Elétrica", department: "Projetos", since: "15/06/2022", status: "Ativo" },
-  { id: 3, name: "Rafael Torres", email: "rafael.torres@hyperz.com.br", phone: "(11) 97654-3321", role: "Analista de Automação", department: "Automação", since: "20/03/2024", status: "Férias" },
+  { id: 1, name: "Carlos Mendes", email: "carlos.mendes@hyperconnect.com.br", phone: "(11) 99123-4567", role: "Técnico de Campo", department: "Instalações", since: "03/01/2023", status: "Ativo" },
+  { id: 2, name: "Fernanda Lima", email: "fernanda.lima@hyperconnect.com.br", phone: "(11) 98765-0011", role: "Engenheira Elétrica", department: "Projetos", since: "15/06/2022", status: "Ativo" },
+  { id: 3, name: "Rafael Torres", email: "rafael.torres@hyperconnect.com.br", phone: "(11) 97654-3321", role: "Analista de Automação", department: "Automação", since: "20/03/2024", status: "Férias" },
 ];
 
 const departments = ["Instalações", "Projetos", "Automação", "Comercial", "Administrativo", "TI"];
@@ -40,6 +45,9 @@ const emptyForm = {
   department: departments[0],
   since: "",
   status: "Ativo" as Status,
+  giveAccess: false,
+  accessEmail: "",
+  accessTeam: "vendas" as AccessInvite["team"],
 };
 
 function initials(name: string) {
@@ -61,6 +69,7 @@ export default function Employees() {
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [menuOpen, setMenuOpen] = useState<number | null>(null);
+  const [invites, setInvites] = useState<AccessInvite[]>([]);
 
   const filtered = employees.filter(
     e =>
@@ -82,7 +91,16 @@ export default function Employees() {
     evt.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
+
     const [y, m, d] = form.since.split("-");
+
+    if (form.giveAccess && form.accessEmail.trim()) {
+      setInvites(prev => [
+        ...prev,
+        { email: form.accessEmail.trim(), team: form.accessTeam },
+      ]);
+    }
+
     setEmployees(prev => [
       ...prev,
       {
@@ -108,7 +126,7 @@ export default function Employees() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-xl font-bold text-white">Funcionários</h1>
-          <p className="text-[#888] text-sm">Gerencie a equipe da HyperZ.</p>
+          <p className="text-[#888] text-sm">Gerencie a equipe da Hyper Connect.</p>
         </div>
         <button
           onClick={() => { setOpen(true); setErrors({}); }}
@@ -227,7 +245,7 @@ export default function Employees() {
                 <label className="block text-xs font-medium text-[#888] mb-1.5">
                   <span className="flex items-center gap-1.5"><Mail size={12} /> E-mail corporativo</span>
                 </label>
-                <input type="email" className={inputCls} placeholder="nome@hyperz.com.br" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
+                <input type="email" className={inputCls} placeholder="nome@gmail.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
                 {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
               </div>
 
@@ -237,6 +255,50 @@ export default function Employees() {
                 </label>
                 <input className={inputCls} placeholder="(11) 99999-9999" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} />
               </div>
+
+              <div className="rounded-lg border border-[#2a2a2a] bg-[#161616] p-3">
+                <label className="flex items-center gap-2 text-sm text-white cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={form.giveAccess}
+                    onChange={e => setForm({ ...form, giveAccess: e.target.checked })}
+                    className="accent-[#f5c518]"
+                  />
+                  Dar acesso ao sistema
+                </label>
+                <p className="mt-2 text-[11px] text-[#888] leading-5">
+                  Isso é um convite de acesso: a pessoa só conseguirá entrar depois de se cadastrar em /register com o mesmo e-mail informado.
+                </p>
+              </div>
+
+              {form.giveAccess && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-medium text-[#888] mb-1.5">E-mail de acesso</label>
+                    <input
+                      type="email"
+                      className={inputCls}
+                      placeholder="funcionario@gmail.com"
+                      value={form.accessEmail}
+                      onChange={e => setForm({ ...form, accessEmail: e.target.value })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-[#888] mb-1.5">Departamento de acesso</label>
+                    <select
+                      className={inputCls}
+                      value={form.accessTeam}
+                      onChange={e => setForm({ ...form, accessTeam: e.target.value as AccessInvite["team"] })}
+                    >
+                      <option value="gerente">Gerência</option>
+                      <option value="admin">Administração</option>
+                      <option value="vendas">Vendas</option>
+                      <option value="instalacao">Instalação</option>
+                    </select>
+                  </div>
+                </div>
+              )}
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
